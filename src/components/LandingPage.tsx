@@ -1,6 +1,8 @@
 "use client";
 
+import Hero from "./hero";
 import Menu from "./menu";
+import NavBar from "./navBar";
 
 // import { ScrollTrigger, SplitText } from "gsap/all";
 
@@ -8,9 +10,11 @@ import Menu from "./menu";
 
 const LandingPage = () => {
 	return (
-		<div className="flex-center h-[100vh]">
-			<h1 className="text-3xl text-indigo-300">Hello</h1>
-		</div>
+		<main>
+			<NavBar />
+			<Hero />
+			<div className="h-dvh bg-black"></div>
+		</main>
 	);
 };
 
