@@ -13,7 +13,6 @@ const LandingPage = () => {
 		<main>
 			<NavBar />
 			<Hero />
-			<div className="h-dvh bg-black"></div>
 		</main>
 	);
 };
