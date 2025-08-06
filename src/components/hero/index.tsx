@@ -1,7 +1,6 @@
 "use client";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger, SplitText } from "gsap/all";
-import Image from "next/image";
 import gsap from "gsap";
 import React, { useRef } from "react";
 import { useMediaQuery } from "react-responsive";
@@ -69,16 +68,24 @@ const Hero = () => {
 				end: endValue,
 				scrub: true,
 				pin: true,
+                onRefresh: self => self.progress && self.animation?.progress(1),
 			},
 		});
-		// bởi vì useGSAP khi chạy ở client là useLayoutEffect
-		// nên ref chắc chắn đã được khởi tạo và gă cho video element
-		// @ts-ignore
-		videoRef.current.onloadedmetadata = () => {
+		const handleAnimationForVideo = () => {
 			tl.to(videoRef.current,{
 				// @ts-ignore
 				currentTime: videoRef.current.duration,
 			})
+		}
+		// trường hợp useGSAP luôn chạy bằng useLayoutEffect nên thẻ video sẽ luôn được render trước khi chạy các mã dươi
+		// nên ref của video luôn tồn tại trước khi chạy các mã dưới
+		// @ts-ignore
+		if(videoRef.current.readyState >= 2) {
+			handleAnimationForVideo();
+		}
+		else {
+			// @ts-ignore
+			videoRef.current.onloadedmetadata = handleAnimationForVideo;
 		}
 	}, {});
 	return (
@@ -118,9 +125,9 @@ const Hero = () => {
 			</section>
 			<div className="video absolute inset-0">
 				<video
-					src="videos/input.mp4"
+					src="/videos/output.mp4"
 					muted
-					playsInline
+					playsInline={true}
 					preload="auto"
 					ref={videoRef}
 				/>
